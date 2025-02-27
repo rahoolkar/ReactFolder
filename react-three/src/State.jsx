@@ -4,7 +4,9 @@ function State(){
     let [count,setCount] = useState(0);
     console.log("outisde",count)
     function countInc(){
-        setCount(count + 1);
+        setCount((currCountValue)=>{
+            return currCountValue + 1;
+        });
         console.log("inside",count);
     }
 
