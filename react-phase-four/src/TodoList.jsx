@@ -7,7 +7,7 @@ function TodoList() {
 
   function addNewTask() {
     setTodos((todos) => {
-      return [...todos, { task: inputValue, id: uuidv4() }];
+      return [...todos, { task: inputValue, id: uuidv4(), isDone: false }];
     });
     setInputValue("");
   }
@@ -44,6 +44,25 @@ function TodoList() {
     });
   }
 
+  function markAsDone(id) {
+    setTodos((todos) => {
+      return todos.map((todo) => {
+        if (todo.id == id) {
+          return { ...todo, isDone: true };
+        } else {
+          return { ...todo };
+        }
+      });
+    });
+  }
+
+  function markAll() {
+    setTodos((todos) => {
+      return todos.map((todo) => {
+        return { ...todo, isDone: true };
+      });
+    });
+  }
   return (
     <div>
       <input
@@ -61,9 +80,14 @@ function TodoList() {
         {todos.map((todo) => {
           return (
             <li key={todo.id}>
-              <span>{todo.task}</span>
+              <span
+                style={todo.isDone ? { textDecoration: "line-through" } : {}}
+              >
+                {todo.task}
+              </span>
               <button onClick={() => deleteTodo(todo.id)}>delete</button>
               <button onClick={() => updateOne(todo.id)}>Update this</button>
+              <button onClick={() => markAsDone(todo.id)}>Mark as Done</button>
             </li>
           );
         })}
@@ -71,6 +95,7 @@ function TodoList() {
       <br />
       <br />
       <button onClick={upperCaseAll}>Upper Case All</button>
+      <button onClick={markAll}>Marks all as Done</button>
     </div>
   );
 }

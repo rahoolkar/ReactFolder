@@ -1,8 +1,15 @@
 import "./App.css";
-import TodoList from "./TodoList"
+import Lottery from "./Lottery";
+import {sum} from "./helper";
 
 function App() {
-  return <TodoList></TodoList>
+  function winCondition(arr){
+    return arr.every((elem)=> {
+      return elem === arr[0];
+    })
+  }
+
+  return <Lottery size={4} winCondition={winCondition}/>
 }
 
 export default App;
