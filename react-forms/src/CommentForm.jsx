@@ -1,103 +1,51 @@
-// import { useState } from "react";
-import { useFormik } from "formik";
+import { useState } from "react";
 
-const validate = (values) => {
-  const errors = {};
-  if (!values.username) {
-    errors.username = "Please enter valid username";
-  } else if (values.username.length > 15) {
-    errors.username = "Must be 15 characters or less";
-  }
-
-  if (!values.review) {
-    errors.review = "Please enter valid username";
-  } else if (values.review.length > 20) {
-    errors.review = "Must be 20 characters or less";
-  }
-
-  if (!values.rating) {
-    errors.rating = "Please provide valid number";
-  }
-
-  return errors;
-};
-
-export default function CommentForm({ fn }) {
-  // let [commentData, setCommentData] = useState({
-  //   username: "",
-  //   review: "",
-  //   rating: 5,
-  // });
-
-  const formik = useFormik({
-    initialValues: {
-      username: "",
-      review: "",
-      rating: 5,
-    },
-    validate,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-    },
+export default function CommentForm({fn}) {
+  let [commentData, setCommentData] = useState({
+    username: "",
+    review: "",
+    stars: 5,
   });
 
-  // function handleInputChange(event) {
-  //   setCommentData((commentData) => {
-  //     return { ...commentData, [event.target.name]: event.target.value };
-  //   });
-  // }
+  function handleInputChange(event) {
+    setCommentData((commentData) => {
+      return { ...commentData, [event.target.name]: event.target.value };
+    });
+  }
 
-  // function handleSubmit(event) {
-  //   event.preventDefault();
-  //   fn(commentData);
-  //   setCommentData({
-  //     username: "",
-  //     review: "",
-  //     rating: 5,
-  //   });
-  // }
-
+  function handleSubmit(event) {
+    event.preventDefault();
+    console.log(commentData);
+    fn(commentData);
+    setCommentData({ username: "", review: "", stars: 5 });
+  }
   return (
     <div>
-      <h3>Comment Section</h3>
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="enter your name"
+          placeholder="enter username"
           name="username"
-          onChange={formik.handleChange}
-          value={formik.values.username}
-        />{" "}
-        <br />
-        {formik.errors.username ? (
-          <div style={{ color: "red" }}>{formik.errors.username}</div>
-        ) : null}
-        <br />
+          value={commentData.username}
+          onChange={handleInputChange}
+        /> <br /><br />
         <textarea
-          placeholder="enter your review"
           name="review"
-          value={formik.values.review}
-          onChange={formik.handleChange}
-        ></textarea>{" "}
-        <br />
-        {formik.errors.review ? (
-          <div style={{ color: "red" }}>{formik.errors.review}</div>
-        ) : null}
-        <br />
+          placeholder="write something"
+          value={commentData.review}
+          onChange={handleInputChange}
+        ></textarea> <br /><br />
         <input
           type="number"
-          min={1}
+          name="stars"
           max={5}
-          name="rating"
-          value={formik.values.rating}
-          onChange={formik.handleChange}
-        />{" "}
-        <br />
-        {formik.errors.rating ? (
-          <div style={{ color: "red" }}>{formik.errors.rating}</div>
-        ) : null}
-        <br />
-        <button type="submit">Add Comment</button>
+          min={1}
+          value={commentData.stars}
+          onChange={handleInputChange}
+        /> <br /><br />
+        <button type="submit" onClick={handleSubmit}>
+          Add Comment
+        </button>
       </form>
     </div>
   );

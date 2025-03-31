@@ -4,28 +4,29 @@ export default function Counter() {
   let [countx, setCountx] = useState(0);
   let [county, setCounty] = useState(0);
 
+  function changeCountx() {
+    setCountx((countx) => {
+      return countx + 1;
+    });
+  }
+
+  function changeCounty() {
+    setCounty((county) => {
+      return county + 1;
+    });
+  }
+
   useEffect(function () {
-    console.log("use effect run");
-  },[]);
-
-  function increaseCountx() {
-    setCountx((count) => {
-      return count + 1;
-    });
-  }
-
-  function increaseCounty() {
-    setCounty((count) => {
-      return count + 1;
-    });
-  }
+    console.log("component rendered");
+  },[countx,county]);
 
   return (
     <div>
-      <h4>Countx = {countx}</h4>
-      <button onClick={increaseCountx}>+1</button>
-      <h4>County = {county}</h4>
-      <button onClick={increaseCounty}>+1</button>
+      <h3>Countx = {countx}</h3>
+      <button onClick={changeCountx}>+1</button>
+      <hr />
+      <h3>County = {county}</h3>
+      <button onClick={changeCounty}>+1</button>
     </div>
   );
 }
